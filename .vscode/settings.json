@@ -1,3 +1,12 @@
 {
-  "IDX.agenticWorkspace": true
+  "IDX.agenticWorkspace": true,
+  "piny.project_settings": {
+    "open-pages": [
+      "pinyfakepage.html"
+    ],
+    "tw-external-config": {},
+    "source-folders": null,
+    "preview-url": "https://3000-firebase-next-js-course-1765218681747.cluster-nzwlpk54dvagsxetkvxzbvslyi.cloudworkstations.dev/",
+    "ai-project-brief": null
+  }
 }
