@@ -8,7 +8,7 @@ export interface IBooking extends Document {
   createdAt: Date;
   updatedAt: Date;
 }
-
+// comment
 const BookingSchema = new Schema<IBooking>(
   {
     eventId: {
