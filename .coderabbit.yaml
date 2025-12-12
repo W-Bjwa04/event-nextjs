@@ -1,0 +1,10 @@
+# .coderabbit.yaml
+reviews:
+  profile: "chill"             # Options: "chill" (default) or "assertive"
+  request_changes_workflow: false # Set to true if you want the bot to approve/request changes formally
+  high_level_summary: true     # Generates a summary at the top of the PR
+  auto_review:
+    enabled: true              # Automatically review new PRs
+    drafts: false              # Skip draft PRs until they are ready
+chat:
+  auto_reply: true             # Allows you to reply to the bot's comments
