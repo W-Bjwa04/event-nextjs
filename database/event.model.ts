@@ -30,7 +30,6 @@ const EventSchema = new Schema<IEvent>(
     },
     slug: {
       type: String,
-      unique: true,
       lowercase: true,
       trim: true,
     },
@@ -110,12 +109,26 @@ const EventSchema = new Schema<IEvent>(
 );
 
 // Pre-save hook for slug generation and data normalization
-EventSchema.pre('save', function (next) {
+EventSchema.pre('save', async function (next) {
+
+  console.log("Pre Save Hook")
   const event = this as IEvent;
 
   // Generate slug only if title changed or document is new
   if (event.isModified('title') || event.isNew) {
     event.slug = generateSlug(event.title);
+
+    // Ensure slug is unique
+    let originalSlug = event.slug;
+    let count = 1;
+    let existingEvent = await models.Event.findOne({ slug: event.slug });
+    console.log(existingEvent)
+    while (existingEvent && existingEvent._id.toString() !== event._id.toString()) {
+      event.slug = `${originalSlug}-${count}`;
+      console.log("Unique Slug Generated")
+      existingEvent = await models.Event.findOne({ slug: event.slug });
+      count++;
+    }
   }
 
   // Normalize date to ISO format if it's not already
