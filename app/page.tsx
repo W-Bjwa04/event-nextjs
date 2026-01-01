@@ -1,42 +1,24 @@
-import EventCard from '@/components/EventCard'
-import ExploreBtn from '@/components/ExploreBtn'
-import { IEvent } from '@/database'
+import BookEvent from "@/components/BookEvent";
+import LightRays from "@/components/LightRays";
+import Section from "@/components/Section";
 
-import React from 'react'
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
-
-
-const Page = async () => {
-
-    // fetch the events from the server 
-
-    const response = await fetch(`${BASE_URL}/api/events`)
-    
-    // parse to json 
-
-    const {events} = await response.json()
-
+const HomePage = () => {
   return (
-    <section>
-        <h1 className='text-center'>The Hub for Every Dev <br/> Event You Can't Miss</h1>
-        <p className='text-center mt-5'>Hackathons, Meetups, and Conferences, All in One Place.</p>
-        <ExploreBtn/>
+    <>
+      <LightRays />
+      <main>
+        <Section id="header">
+          <div className="flex flex-col items-center justify-center h-full text-center">
+            <h1 className="text-4xl font-bold">Next.js Course</h1>
+            <p className="mt-4 text-lg">Learn how to build a Next.js app from scratch</p>
+            <div className="mt-8">
+              <BookEvent />
+            </div>
+          </div>
+        </Section>
+      </main>
+    </>
+  );
+};
 
-        <div className='mt-20 space-y-7'>
-            <h3>Featured Events</h3>
-            <ul className='events list-none'>
-                {
-                    events && events.length >0 && events.map((event:IEvent)=>(
-                        <li key={event.slug}>
-                            <EventCard  {...event}/>
-                        </li>
-                    ))
-                }
-            </ul>
-        </div>
-    </section>
-  )
-}
-
-export default Page
+export default HomePage;

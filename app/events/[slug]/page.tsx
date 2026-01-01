@@ -1,16 +1,33 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
+import { cn } from "../../../lib/utils";
+import  BookEvent  from "../../../components/BookEvent"
+
+const bookings = 10
 
 
 // EventDetailItem Component
 
 const EventDetailItem = ({icon, alt, label}:{icon:string, alt:string, label:string})=>(
-  <div className="flex-row-gap-2 items-center">
+  <div className={cn('flex-row-gap-2', 'items-center')}>
     <Image src={icon} alt={alt} width={17} height={17} />
     <p>{label}</p>
   </div>
 )
+
+// Event Tags
+
+const EventTags = ({tags}:{tags:string[]})=>(
+    <div className="flex flex-row gap-1.5 flex-wrap">
+        {tags.map((tag)=>(
+          <div className="pill" key={tag}>
+            {tag}
+          </div>
+        ))}
+    </div>
+)
+
 
 // EventAgenda Component
 
@@ -27,16 +44,14 @@ const EventAgenda = ({agendaItems}: {agendaItems:string[]})=>(
 
 // EventTags
 
-const EventTags = ({tags}: {tags:string[]})=>(
-  
-)
+
 
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 const EventDetailsPage = async ({ params }: {params:Promise<{slug:string}>}) => {
   const {slug} = await params
   const response = await fetch(`${BASE_URL}/api/events/${slug}`)
-  const {event: {description , image , overview , date , time , location, mode, agenda , audience, organizer }} = await response.json()
+  const {event: {description , image , overview , date , time , location, mode, agenda , audience, organizer, tags }} = await response.json()
 
   if (!description) return notFound()
 
@@ -96,12 +111,35 @@ const EventDetailsPage = async ({ params }: {params:Promise<{slug:string}>}) => 
                 <p>{organizer}</p>
             </section>
 
+            {/* tags */}
+
+            <EventTags tags={tags} />
+
+
         </div>
       </div>
 
       {/* Right Side - Booking Form  */}
       <aside className="booking">
-        <p className="text-lg font-semibold">Book Event</p>
+        <div className="signup-card">
+            <h2>
+              Book Your Spot
+            </h2>
+            {
+              bookings > 0 ? (
+                <p className="text-sm">
+                  Join {bookings} people have already booked their spot!
+                </p>
+              ) : (
+                <p className="text-sm">
+                  Be the first to book your spot 
+                </p>
+              )
+            }
+
+            <BookEvent/>
+          
+        </div>
       </aside>
 
     </div>
